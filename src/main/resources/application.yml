@@ -14,3 +14,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   #配置 src/main/resources/mapper/mybatis-plus.xml 自定义方法的位置 默认为当前位置
   #mapper-locations:
+  #方式二：设置实体类对应表的前缀
+  #global-config:
+  #  db-config:
+  #    table-prefix: t_

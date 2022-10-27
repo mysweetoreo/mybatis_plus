@@ -34,7 +34,7 @@ public class MybatisPlusTest {
         user.setEmail("www.shuguo@.com");
         int result = userMapper.insert(user);
         System.out.println("result"+result);
-        System.out.println(user.getId());
+        System.out.println(user.getUid());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class MybatisPlusTest {
         //修改
         //UPDATE user SET name=?, email=? WHERE id=?
         User user = new User();
-        user.setId(4L);
+        user.setUid(4L);
         user.setName("吕布");
         user.setEmail("www.baidu.com");
         int result = userMapper.updateById(user);
