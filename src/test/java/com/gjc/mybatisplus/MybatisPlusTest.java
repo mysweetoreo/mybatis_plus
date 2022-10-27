@@ -51,7 +51,7 @@ public class MybatisPlusTest {
 
         //deleteBatchIds
         //DELETE FROM user WHERE id IN ( ? , ? )
-        List<Long> list = Arrays.asList(5L,6L);
+        List<Long> list = Arrays.asList(1L,2L,3L);
         int result = userMapper.deleteBatchIds(list);
         System.out.println("result:"+result);
     }

@@ -1,8 +1,6 @@
 package com.gjc.mybatisplus.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.*;
 
 /*@NoArgsConstructor
@@ -23,9 +21,14 @@ public class User {
     @TableId("uid")
     private Long id;
 
+    @TableField("name")
     private String name;
 
     private Integer age;
 
     private String email;
+
+    @TableLogic //逻辑删除 删除时 把表中is_delete 字段状态为0的改成1 全部查询时 状态为1的不会被查询出来
+    @TableField("is_delete")
+    private Integer idDelete;
 }

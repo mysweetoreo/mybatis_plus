@@ -15,6 +15,8 @@ mybatis-plus:
   #配置 src/main/resources/mapper/mybatis-plus.xml 自定义方法的位置 默认为当前位置
   #mapper-locations:
   #方式二：设置实体类对应表的前缀
-  #global-config:
-  #  db-config:
-  #    table-prefix: t_
+  global-config:
+    db-config:
+      table-prefix: t_
+      #设置统一的主键生成策略
+      id-type: auto
