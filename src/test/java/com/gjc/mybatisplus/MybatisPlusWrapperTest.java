@@ -37,7 +37,71 @@ public class MybatisPlusWrapperTest {
 
     }
 
+    @Test
+    public void test03(){
+        //删除email为空的数据
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.isNull("email");
+        int delete = userMapper.delete(queryWrapper);
+        System.out.println("result:"+delete);
 
+    }
+
+    @Test
+    public void test04(){
+        //年龄大于10 小于 30并且 名字中有g的 或者eamil为空的 进行修改
+        //UPDATE t_user SET name=?, email=? WHERE is_delete=0 AND (age > ? AND age < ? AND name LIKE ? OR email IS NULL)
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.gt("age",10)
+                .lt("age",30)
+                .like("name","g")
+                .or()
+                .isNull("email");
+        User user = new User();
+        user.setName("gjc天下无敌");
+        user.setEmail("www.cn.bing.com");
+        int result = userMapper.update(user, queryWrapper);
+        System.out.println("result:"+result);
+    }
+
+    //条件的优先级
+    @Test
+    public void test05(){
+        //将用户名含有g并且 （年龄大于60 小于80 或者邮箱为空 ）的用户进行修改
+        //lambda 优先执行
+        // UPDATE t_user SET age=? WHERE is_delete=0 AND (name LIKE ? AND (age > ? AND age < ? OR email IS NULL))
+        QueryWrapper<User> queryWrapper = new QueryWrapper();
+        queryWrapper.like("name","g")
+                .and(i->i.gt("age",60).lt("age",80).or().isNull("email"));
+
+        User user = new User();
+        user.setAge(71);
+
+        int result = userMapper.update(user, queryWrapper);
+        System.out.println("result:"+result);
+    }
+
+    //组装select 查询语句
+    @Test
+    public void test06(){
+        //SELECT name,age,email FROM t_user WHERE is_delete=0
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("name","age","email");
+
+        List<User> users = userMapper.selectList(queryWrapper);
+        users.forEach(System.out::println);
+    }
+    //select 子查询
+    @Test
+    public void test07(){
+        //查询uid 大于10
+        //SELECT uid AS id,name,age,email,is_delete AS idDelete FROM t_user WHERE is_delete=0 AND (uid IN (select uid from t_user where uid > 10))
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.inSql("uid","select uid from t_user where uid > 10");
+
+        List<User> users = userMapper.selectList(queryWrapper);
+        users.forEach(System.out::println);
+    }
 
 
 }
