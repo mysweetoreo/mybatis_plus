@@ -1,6 +1,8 @@
 package com.gjc.mybatisplus;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.gjc.mybatisplus.mapper.UserMapper;
 import com.gjc.mybatisplus.pojo.User;
 import org.junit.jupiter.api.Test;
@@ -103,5 +105,39 @@ public class MybatisPlusWrapperTest {
         users.forEach(System.out::println);
     }
 
+    //使用UpdateWrapper
+    @Test
+    public void test08(){
+        //UPDATE t_user SET name=?,age=? WHERE is_delete=0 AND (name LIKE ? AND (age > ? AND age < ? AND email IS NULL))
+        UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
+        userUpdateWrapper.like("name","g")
+                .and(i->i.gt("age",20).lt("age",100).isNull("email"));
+
+        userUpdateWrapper.set("name","gjcUpdateWrapper").set("age","66");
+        int result = userMapper.update(null, userUpdateWrapper);
+        System.out.println(result);
+    }
+
+    //模拟开发中的组装
+    @Test
+    public void test09(){
+        String name ="g";
+        Integer ageBegin= 30;
+        Integer ageEnd = 35;
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        if(StringUtils.isBlank(name)){
+            queryWrapper.like("name","g");
+        }
+        if (ageBegin!=null){
+            queryWrapper.ge("age",ageBegin);
+        }
+        if (ageEnd!=null){
+            queryWrapper.le("age",ageEnd);
+        }
+        List<User> users = userMapper.selectList(queryWrapper);
+        users.forEach(System.out::println);
+
+    }
 
 }
