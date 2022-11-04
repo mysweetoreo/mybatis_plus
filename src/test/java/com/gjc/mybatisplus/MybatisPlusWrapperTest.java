@@ -1,6 +1,8 @@
 package com.gjc.mybatisplus;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.gjc.mybatisplus.mapper.UserMapper;
@@ -137,7 +139,57 @@ public class MybatisPlusWrapperTest {
         }
         List<User> users = userMapper.selectList(queryWrapper);
         users.forEach(System.out::println);
+    }
 
+    //condition
+    @Test
+    public void test10(){
+        //SELECT uid AS id,name,age,email,is_delete AS idDelete FROM t_user WHERE is_delete=0 AND (age >= ? AND age <= ?)
+        String name ="g";
+        Integer ageBegin= 30;
+        Integer ageEnd = 35;
+
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(StringUtils.isBlank(name),"name",name)
+                .ge(ageBegin!=null,"age",ageBegin)
+                .le(ageEnd!=null,"age",ageEnd);
+
+        List<User> users = userMapper.selectList(queryWrapper);
+        users.forEach(System.out::println);
+    }
+
+    //LambdaQueryWrapper
+    @Test
+    public void test11(){
+        //SELECT uid AS id,name,age,email,is_delete AS idDelete FROM t_user WHERE is_delete=0 AND (age >= ? AND age <= ?)
+        String name ="g";
+        Integer ageBegin= 30;
+        Integer ageEnd = 35;
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.like(StringUtils.isBlank(name),User::getName,name)
+                .ge(ageBegin!=null,User::getAge,ageBegin)
+                .le(ageEnd!=null,User::getAge,ageBegin);
+
+        List<User> users = userMapper.selectList(queryWrapper);
+        users.forEach(System.out::println);
+    }
+
+    //使用UpdateWrapper
+    @Test
+    public void test12(){
+        //UPDATE t_user SET name=?,age=? WHERE is_delete=0 AND (name LIKE ? AND (age > ? AND age < ? AND email IS NOT NULL))
+        LambdaUpdateWrapper<User> userUpdateWrapper = new LambdaUpdateWrapper<>();
+        userUpdateWrapper.like(User::getName,"g")
+                .and(i->i.gt(User::getAge,80)
+                        .lt(User::getAge,83)
+                        .isNotNull(User::getEmail));
+
+        userUpdateWrapper
+                .set(User::getName,"gjcUpdateWrapper")
+                .set(User::getAge,"82");
+        int result = userMapper.update(null, userUpdateWrapper);
+        System.out.println(result);
     }
 
 }
