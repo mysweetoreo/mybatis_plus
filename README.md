@@ -6,7 +6,7 @@ uid BIGINT(20) NOT NULL COMMENT '主键ID',
 name VARCHAR(30) NULL DEFAULT NULL COMMENT '姓名',
 age INT(11) NULL DEFAULT NULL COMMENT '年龄',
 email VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
-PRIMARY KEY (id)
+PRIMARY KEY (uid)
 );
 
 
@@ -27,3 +27,15 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/mysweetoreo/mybatis_plus.git
 git push -u origin main
+
+
+##
+DROP TABLE IF EXISTS t_product;
+CREATE TABLE t_product
+(
+id BIGINT(20) NOT NULL COMMENT '主键ID',
+name VARCHAR(30) NULL DEFAULT NULL COMMENT '商品名称',
+price INT(11) DEFAULT 0 COMMENT '价格',
+version INT(11) DEFAULT 0 COMMENT '乐观锁版本号',
+PRIMARY KEY (id)
+);
