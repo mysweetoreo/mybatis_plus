@@ -30,8 +30,8 @@ git push -u origin main
 
 
 ##
-DROP TABLE IF EXISTS t_product;
-CREATE TABLE t_product
+DROP TABLE IF EXISTS product;
+CREATE TABLE product
 (
 id BIGINT(20) NOT NULL COMMENT '主键ID',
 name VARCHAR(30) NULL DEFAULT NULL COMMENT '商品名称',

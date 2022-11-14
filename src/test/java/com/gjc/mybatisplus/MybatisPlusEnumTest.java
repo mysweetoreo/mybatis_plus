@@ -18,27 +18,12 @@ public class MybatisPlusEnumTest {
         User user = new User();
         user.setName("enumName");
         user.setAge(99);
-        user.setSex(EnumSex.MALE);
-        user.setEmail("www.baidu.com");
+        //user.setSex(EnumSex.MALE);
+        user.setIdDelete(0);
 
         int result = userMapper.insert(user);
         System.out.println(result);
     }
 
-    @Test
-    public void Timetest() {
-
-            // TODO Auto-generated method stub
-            String str1="2015-02-08";
-            String str2="2015-01-08";
-            int res=str1.compareTo(str2);
-            if(res>0)
-                System.out.println("str1>str2");
-            else if(res==0)
-                System.out.println("str1=str2");
-            else
-                System.out.println("str1<str2");
-
-    }
 
 }
