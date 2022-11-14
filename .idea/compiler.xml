@@ -8,16 +8,19 @@
         <outputRelativeToContentRoot value="true" />
         <module name="mybatisplus" />
         <module name="mybatisDataSource" />
+        <module name="mybatisX" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="mybatisDataSource" target="1.8" />
       <module name="mybatisplus" target="1.8" />
+      <module name="mybatisX" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="mybatisDataSource" options="-parameters" />
+      <module name="mybatisX" options="-parameters" />
       <module name="mybatisplus" options="-parameters" />
     </option>
   </component>
